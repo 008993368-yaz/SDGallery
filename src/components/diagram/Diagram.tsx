@@ -43,7 +43,7 @@ export function Diagram({ chart, title, kind = "mermaid" }: DiagramProps) {
     );
   }
 
-  if (error || !chart.trim()) {
+  if (error || !chart?.trim()) {
     return (
       <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-500">
         Diagram unavailable. The rest of this page still works.
