@@ -6,9 +6,15 @@ import type { CaseStudy } from "@/lib/types";
 type CaseStudyCardProps = {
   study: CaseStudy;
   className?: string;
+  /** Override default `/case-studies/{slug}` (e.g. deep-link with hash). */
+  href?: string;
 };
 
-export function CaseStudyCard({ study, className = "" }: CaseStudyCardProps) {
+export function CaseStudyCard({
+  study,
+  className = "",
+  href,
+}: CaseStudyCardProps) {
   const company = getCompany(study.company);
   const companyName = company?.name ?? study.company;
   const logo = company?.logo;
@@ -16,7 +22,7 @@ export function CaseStudyCard({ study, className = "" }: CaseStudyCardProps) {
 
   return (
     <Link
-      href={`/case-studies/${study.slug}`}
+      href={href ?? `/case-studies/${study.slug}`}
       className={`group flex min-w-[16rem] flex-col gap-3 rounded-xl border border-slate-200/80 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-600/40 hover:shadow-md ${className}`}
     >
       <div className="flex items-center gap-3">
