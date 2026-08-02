@@ -1,0 +1,50 @@
+---
+title: "How Uber Matches Rides in Real Time"
+slug: uber-ride-matching
+company: uber
+patterns: [queues, sharding, load-balancing, rate-limiting]
+stats:
+  users: "millions of trips/day"
+  rps: "high"
+  dataVolume: "terabytes"
+  regions: "cities worldwide"
+featured: true
+publishedAt: "2026-07-08"
+updatedAt: "2026-07-18"
+relatedCompanies: [cloudflare]
+hook: "Queues and sharding for city-scale matching"
+---
+
+## Problem & Requirements
+
+Match riders and drivers quickly under bursty demand.
+
+## High-Level Design
+
+City-scoped services stream location updates into matching workers.
+
+## Key Components
+
+Dispatch, location ingestion, and pricing services.
+
+## Deep Dives
+
+### Queues
+
+Absorb request spikes between producers and matchers.
+
+### Sharding
+
+Partition cities and geospatial cells across workers.
+
+## Trade-offs
+
+Match quality versus latency under load.
+
+## Evolution
+
+Moved from monolithic dispatch toward regional shards.
+
+## Sources
+
+Public Uber engineering blog posts.

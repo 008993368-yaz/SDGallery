@@ -1,0 +1,50 @@
+---
+title: "How YouTube Delivers Video Worldwide"
+slug: youtube-video-delivery
+company: youtube
+patterns: [caching, cdn, load-balancing, sharding]
+stats:
+  users: "billions of views/day"
+  rps: "very high"
+  dataVolume: "exabytes"
+  regions: "global"
+featured: true
+publishedAt: "2026-07-05"
+updatedAt: "2026-07-20"
+relatedCompanies: [netflix, cloudflare]
+hook: "Global video delivery with caching and CDN"
+---
+
+## Problem & Requirements
+
+Serve user-generated video at planetary scale.
+
+## High-Level Design
+
+Upload, process, and stream via edge caches.
+
+## Key Components
+
+Transcoding, storage, and edge delivery tiers.
+
+## Deep Dives
+
+### Caching
+
+Popular videos stay hot at the edge.
+
+### CDN
+
+Regional POPs reduce origin load.
+
+## Trade-offs
+
+Storage cost versus playback quality ladders.
+
+## Evolution
+
+Grew from a single site into a global delivery network.
+
+## Sources
+
+Public Google/YouTube engineering posts.

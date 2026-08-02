@@ -1,0 +1,50 @@
+---
+title: "How Netflix Streams to 200M+ Users"
+slug: netflix-video-streaming
+company: netflix
+patterns: [caching, cdn, load-balancing, queues]
+stats:
+  users: "200M+"
+  rps: "millions"
+  dataVolume: "petabytes"
+  regions: "190+"
+featured: true
+publishedAt: "2026-07-01"
+updatedAt: "2026-08-01"
+relatedCompanies: [youtube, cloudflare]
+hook: "Open Connect, encoding, and caching at internet scale"
+---
+
+## Problem & Requirements
+
+Deliver reliable video to members worldwide with low startup delay.
+
+## High-Level Design
+
+Clients fetch manifests and segments via CDN and origin services.
+
+## Key Components
+
+Open Connect appliances, encoding pipeline, and playback clients.
+
+## Deep Dives
+
+### Caching
+
+Hot segments stay near viewers.
+
+### CDN
+
+Edge nodes absorb most traffic.
+
+## Trade-offs
+
+More cache hit rate versus fresher catalog updates.
+
+## Evolution
+
+Moved from central data centers toward a deep edge footprint.
+
+## Sources
+
+Public Netflix technology blog posts.

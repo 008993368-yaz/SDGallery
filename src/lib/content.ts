@@ -1,0 +1,124 @@
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+import type { CaseStudy, Company, Contributor, Pattern, SearchHit } from "./types";
+
+const contentRoot = path.join(process.cwd(), "content");
+
+function readMdxFiles(subdir: string): string[] {
+  const dir = path.join(contentRoot, subdir);
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((name) => name.endsWith(".mdx"))
+    .map((name) => path.join(dir, name));
+}
+
+function loadMdx<T>(filePath: string): T & { body: string } {
+  const raw = fs.readFileSync(filePath, "utf8");
+  const { data, content } = matter(raw);
+  return { ...(data as T), body: content };
+}
+
+export function getCompanies(): Company[] {
+  return readMdxFiles("companies")
+    .map((file) => loadMdx<Omit<Company, "body">>(file))
+    .sort((a, b) => b.popularity - a.popularity || a.name.localeCompare(b.name));
+}
+
+export function getCompany(slug: string): Company | undefined {
+  return getCompanies().find((c) => c.slug === slug);
+}
+
+export function getPatterns(): Pattern[] {
+  return readMdxFiles("patterns")
+    .map((file) => loadMdx<Omit<Pattern, "body">>(file))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+export function getPattern(slug: string): Pattern | undefined {
+  return getPatterns().find((p) => p.slug === slug);
+}
+
+export function getCaseStudies(): CaseStudy[] {
+  return readMdxFiles("case-studies")
+    .map((file) => loadMdx<Omit<CaseStudy, "body">>(file))
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+}
+
+export function getCaseStudy(slug: string): CaseStudy | undefined {
+  return getCaseStudies().find((s) => s.slug === slug);
+}
+
+export function getFeaturedCaseStudies(): CaseStudy[] {
+  return getCaseStudies().filter((s) => s.featured);
+}
+
+export function getRecentCaseStudies(limit: number): CaseStudy[] {
+  return getCaseStudies().slice(0, limit);
+}
+
+export function getCaseStudiesByPattern(patternSlug: string): CaseStudy[] {
+  return getCaseStudies().filter((s) => s.patterns.includes(patternSlug));
+}
+
+export function getPrimaryCaseStudyForCompany(
+  companySlug: string,
+): CaseStudy | undefined {
+  const studies = getCaseStudies().filter((s) => s.company === companySlug);
+  if (studies.length === 0) return undefined;
+  const featured = studies.find((s) => s.featured);
+  if (featured) return featured;
+  return [...studies].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))[0];
+}
+
+export function getSearchIndex(): SearchHit[] {
+  const companies = getCompanies();
+  const patterns = getPatterns();
+  const caseStudies = getCaseStudies();
+  const companyBySlug = new Map(companies.map((c) => [c.slug, c]));
+
+  const hits: SearchHit[] = [];
+
+  for (const company of companies) {
+    const primary = getPrimaryCaseStudyForCompany(company.slug);
+    hits.push({
+      type: "company",
+      slug: company.slug,
+      title: company.name,
+      industry: company.industry,
+      snippet: company.summary,
+      href: primary ? `/case-studies/${primary.slug}` : "/companies",
+    });
+  }
+
+  for (const pattern of patterns) {
+    hits.push({
+      type: "pattern",
+      slug: pattern.slug,
+      title: pattern.name,
+      snippet: pattern.definition,
+      href: `/patterns/${pattern.slug}`,
+    });
+  }
+
+  for (const study of caseStudies) {
+    hits.push({
+      type: "case-study",
+      slug: study.slug,
+      title: study.title,
+      industry: companyBySlug.get(study.company)?.industry,
+      snippet: study.hook,
+      href: `/case-studies/${study.slug}`,
+    });
+  }
+
+  return hits;
+}
+
+export function getContributors(): Contributor[] {
+  const filePath = path.join(contentRoot, "contributors.json");
+  if (!fs.existsSync(filePath)) return [];
+  const raw = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(raw) as Contributor[];
+}

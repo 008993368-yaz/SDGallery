@@ -1,0 +1,50 @@
+---
+title: "How Cloudflare Runs at the Edge"
+slug: cloudflare-edge
+company: cloudflare
+patterns: [cdn, rate-limiting, caching, load-balancing]
+stats:
+  users: "millions of sites"
+  rps: "tens of millions"
+  dataVolume: "huge"
+  regions: "300+ cities"
+featured: true
+publishedAt: "2026-07-12"
+updatedAt: "2026-07-25"
+relatedCompanies: [netflix, youtube]
+hook: "CDN and rate limiting on a global edge"
+---
+
+## Problem & Requirements
+
+Protect and accelerate traffic close to users.
+
+## High-Level Design
+
+Anycast routes clients to nearby POPs that enforce policy.
+
+## Key Components
+
+Edge proxies, DNS, and threat defenses.
+
+## Deep Dives
+
+### CDN
+
+Cache and serve content from many cities.
+
+### Rate Limiting
+
+Throttle abusive clients before origin.
+
+## Trade-offs
+
+Aggressive blocking versus false positives.
+
+## Evolution
+
+Expanded from reverse proxy into a full edge platform.
+
+## Sources
+
+Public Cloudflare blog posts.
