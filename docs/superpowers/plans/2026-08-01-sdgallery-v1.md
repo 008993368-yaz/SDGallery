@@ -18,7 +18,7 @@
 - Brand: light cool-gray/slate atmosphere, deep teal accent (`#0F766E`), expressive fonts — **not** Inter/Roboto/Arial/system as brand faces; **not** purple-glow or dark cyber dashboard.
 - Cards only for interactive units (directory, featured, search results).
 - Diagram API must accept Mermaid now and remain swappable for Excalidraw later.
-- Prefer extending the existing scaffold (`package.json` already has `gray-matter`, `next-mdx-remote`); remove leftover default create-next-app marketing UI and any obsolete exhibit naming as you touch those files.
+- Workspace starts clean (docs + README only). Task 1 scaffolds a fresh Next.js App Router app with TypeScript + Tailwind, then installs gray-matter, next-mdx-remote, mermaid, and Vitest.
 - Ignore and do not commit log artifacts (`*.log`, `build-ok.txt`, `vercel-*.txt`, `.npm-cache/`).
 
 ---
@@ -84,22 +84,32 @@ Delete or stop using when encountered: `src/components/exhibit/*`, `src/componen
 
 ---
 
-### Task 1: Foundation — tokens, fonts, chrome, Vitest
+### Task 1: Foundation — scaffold, tokens, fonts, chrome, Vitest
 
 **Files:**
-- Modify: `package.json`, `src/app/layout.tsx`, `src/app/globals.css`, `src/app/page.tsx` (temporary stub), `.gitignore`
+- Create (via scaffold): `package.json`, `src/app/layout.tsx`, `src/app/globals.css`, `src/app/page.tsx`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `.gitignore`, etc.
 - Create: `src/lib/constants.ts`, `src/components/layout/SiteHeader.tsx`, `src/components/layout/SiteFooter.tsx`, `vitest.config.ts`
-- Delete when present: default marketing blocks only from `page.tsx`; leave a minimal placeholder home until Task 5
+- Modify after scaffold: `package.json` scripts, `layout.tsx`, `globals.css`, `page.tsx` (minimal stub), `.gitignore`
 
 **Interfaces:**
 - Produces: `NAV_LINKS`, `GITHUB_REPO_URL`, `SITE_NAME` from `src/lib/constants.ts`
 - Produces: `SiteHeader`, `SiteFooter` used by root layout
 
-- [ ] **Step 1: Add Vitest and Mermaid dependencies**
+- [ ] **Step 0: Scaffold Next.js in the repo root**
+
+From `D:\Repo\SDGallery` (already contains `docs/` and `README.md`):
 
 ```bash
-npm install mermaid
-npm install -D vitest @vitejs/plugin-react jsdom
+npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --turbopack --yes
+```
+
+If create-next-app refuses a non-empty directory, scaffold into a temp folder and move app files into the repo root without overwriting `docs/`. Keep the existing `README.md` until Task 11 (do not let the scaffold overwrite the SDGallery README — restore from git if needed).
+
+- [ ] **Step 1: Add Vitest, Mermaid, content deps**
+
+```bash
+npm install mermaid gray-matter next-mdx-remote
+npm install -D vitest @vitejs/plugin-react jsdom @types/mdx
 ```
 
 Update `package.json` scripts:
