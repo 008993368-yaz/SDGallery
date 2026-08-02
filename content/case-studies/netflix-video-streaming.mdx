@@ -17,34 +17,59 @@ hook: "Open Connect, encoding, and caching at internet scale"
 
 ## Problem & Requirements
 
-Deliver reliable video to members worldwide with low startup delay.
+Netflix must start playback quickly for members around the world, keep streams stable as bitrates change, and absorb huge evening peaks without melting a handful of data centers. Titles are encoded into many formats and quality levels, then delivered as short segments. The hard parts for beginners to notice are: (1) most bytes should never touch the origin, (2) control-plane APIs (catalog, personalization, licenses) must stay fast even when the data plane is enormous, and (3) new releases create sudden hot spots.
+
+Compare the shared video ideas with [YouTube’s delivery story](/case-studies/youtube-video-delivery), and the edge-cache mindset with [Cloudflare](/case-studies/cloudflare-edge).
 
 ## High-Level Design
 
-Clients fetch manifests and segments via CDN and origin services.
+At a high level, content is encoded offline, stored in the cloud, and pushed or pulled into Open Connect appliances (Netflix’s CDN footprint) near ISPs. Clients fetch manifests and segments from nearby caches; misses and non-cacheable API calls go back through load-balanced services. Encoding and packaging work is often asynchronous via queues so publish pipelines do not block on every transform.
+
+Patterns in play: [caching](/patterns/caching), [CDN](/patterns/cdn), [load balancing](/patterns/load-balancing), and [queues](/patterns/queues).
+
+```mermaid
+flowchart LR
+  Studio[Content ingest] --> Encode[Encoding pipeline]
+  Encode --> Origin[(Origin storage)]
+  Origin --> OC[Open Connect / CDN]
+  Client --> OC
+  Client --> APIs[Control-plane APIs]
+  APIs --> Cache[(API caches)]
+  Encode --> Q[(Job queues)]
+  Q --> Encode
+```
 
 ## Key Components
 
-Open Connect appliances, encoding pipeline, and playback clients.
+- **Open Connect appliances** — ISP- and IX-adjacent caches that serve the bulk of video bytes.
+- **Encoding / packaging pipeline** — turns masters into ABR ladders and segment formats clients understand.
+- **Playback clients** — choose bitrates, request segments, and recover from stalls.
+- **Control-plane services** — discovery, personalization, licensing, and telemetry behind load balancers and caches.
+- **Job queues** — absorb bursts of encode, package, and preposition work.
 
 ## Deep Dives
 
 ### Caching
 
-Hot segments stay near viewers.
+Hot titles, manifests, and API responses live in memory or local disk near the request path. Cache hit rate is the difference between a snappy start and a thundering herd on origin. Invalidation and TTLs matter when artwork or metadata changes, but segment content for a given encode is largely immutable—ideal for aggressive caching. See the [caching pattern](/patterns/caching).
 
 ### CDN
 
-Edge nodes absorb most traffic.
+Open Connect is Netflix’s answer to “put the bytes next to the audience.” Prepositioning popular titles before peak hours reduces origin fill during primetime. When a POP misses, fill traffic is carefully managed so one miss storm does not flatten upstream storage. Related: [CDN](/patterns/cdn) and edge themes in [Cloudflare’s case study](/case-studies/cloudflare-edge).
 
 ## Trade-offs
 
-More cache hit rate versus fresher catalog updates.
+- **Deeper edge vs. operational cost** — more appliances improve hit rate but add hardware, placement, and update complexity.
+- **More quality ladders vs. storage** — better experience on varied networks multiplies stored bytes.
+- **Aggressive caching vs. freshness** — great for segments; trickier for personalized or rapidly changing metadata.
+- **Async encoding vs. time-to-available** — queues protect the system but delay when a title is fully ready everywhere.
 
 ## Evolution
 
-Moved from central data centers toward a deep edge footprint.
+Early Netflix streaming leaned on fewer large locations and third-party CDNs. Over time Netflix invested in Open Connect, richer encoding ladders, and a microservices control plane on public cloud. The durable lesson: treat video bytes as an edge problem and everything else as a horizontally scaled, cache-friendly service mesh.
 
 ## Sources
 
-Public Netflix technology blog posts.
+- [Netflix Technology Blog — Open Connect](https://netflixtechblog.com/) (search “Open Connect” for appliance and ISP partnership posts)
+- [Netflix Technology Blog — encoding and content delivery](https://netflixtechblog.com/) (ABR, packaging, and playback engineering write-ups)
+- [Netflix Technology Blog — caching and performance](https://netflixtechblog.com/) (EVCache and API performance articles)
