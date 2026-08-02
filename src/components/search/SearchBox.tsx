@@ -1,9 +1,14 @@
 type SearchBoxProps = {
   className?: string;
   size?: "default" | "large";
+  defaultValue?: string;
 };
 
-export function SearchBox({ className = "", size = "default" }: SearchBoxProps) {
+export function SearchBox({
+  className = "",
+  size = "default",
+  defaultValue = "",
+}: SearchBoxProps) {
   const inputClass =
     size === "large"
       ? "h-14 rounded-xl px-5 text-base shadow-sm"
@@ -16,13 +21,14 @@ export function SearchBox({ className = "", size = "default" }: SearchBoxProps) 
       className={`group relative w-full ${className}`}
       role="search"
     >
-      <label htmlFor="home-search-q" className="sr-only">
+      <label htmlFor="search-q" className="sr-only">
         Search a company or pattern
       </label>
       <input
-        id="home-search-q"
+        id="search-q"
         type="search"
         name="q"
+        defaultValue={defaultValue}
         placeholder="Search a company or pattern"
         className={`w-full border border-slate-200 bg-white text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20 ${inputClass}`}
       />
