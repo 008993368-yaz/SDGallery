@@ -48,15 +48,20 @@ export default async function SearchPage({
   ].sort((a, b) => a.localeCompare(b));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-      <section className="max-w-2xl">
-        <h1 className="font-display text-4xl tracking-tight text-slate-900">
-          Search
-        </h1>
-        <p className="mt-3 text-lg leading-relaxed text-slate-600">
-          Find companies, patterns, and case studies across the gallery.
-        </p>
-        <SearchBox className="mt-6" defaultValue={q} />
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14 lg:py-16">
+      <section className="rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-[0_24px_80px_-48px_rgba(15,23,42,0.45)] ring-1 ring-slate-900/5 backdrop-blur sm:p-8">
+        <div className="max-w-2xl">
+          <p className="text-sm font-medium uppercase tracking-[0.24em] text-teal-700">
+            Discover
+          </p>
+          <h1 className="mt-3 font-display text-4xl tracking-tight text-slate-900 sm:text-5xl">
+            Search
+          </h1>
+          <p className="mt-3 text-lg leading-relaxed text-slate-600">
+            Find companies, patterns, and case studies across the gallery.
+          </p>
+          <SearchBox className="mt-6" defaultValue={q} />
+        </div>
       </section>
 
       <SearchResults

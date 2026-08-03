@@ -18,7 +18,7 @@ export function Pagination({ page, totalPages, onChange }: PaginationProps) {
         type="button"
         disabled={page <= 1}
         onClick={() => onChange(page - 1)}
-        className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 transition enabled:hover:border-teal-600/40 enabled:hover:text-teal-800 disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded-full border border-white/70 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm ring-1 ring-slate-900/5 transition enabled:hover:border-teal-500/30 enabled:hover:text-teal-800 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Previous
       </button>
@@ -29,7 +29,7 @@ export function Pagination({ page, totalPages, onChange }: PaginationProps) {
         type="button"
         disabled={page >= totalPages}
         onClick={() => onChange(page + 1)}
-        className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 transition enabled:hover:border-teal-600/40 enabled:hover:text-teal-800 disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded-full border border-white/70 bg-white px-4 py-2 text-sm text-slate-700 shadow-sm ring-1 ring-slate-900/5 transition enabled:hover:border-teal-500/30 enabled:hover:text-teal-800 disabled:cursor-not-allowed disabled:opacity-40"
       >
         Next
       </button>

@@ -31,13 +31,13 @@ export function CompareControls({
   }
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
+    <div className="flex flex-col gap-3 rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm ring-1 ring-slate-900/5 sm:flex-row sm:flex-wrap sm:items-end">
       <label className="flex min-w-[10rem] flex-1 flex-col gap-1.5 text-sm text-slate-600">
         <span>Company A</span>
         <select
           value={a}
           onChange={(event) => setA(event.target.value)}
-          className="rounded-md border border-slate-200 bg-white px-3 py-2 text-slate-800 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20"
+          className="rounded-2xl border border-white/70 bg-white px-3 py-2.5 text-slate-800 outline-none ring-1 ring-slate-900/5 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
         >
           <option value="">Select a company</option>
           {companies.map((company) => (
@@ -53,7 +53,7 @@ export function CompareControls({
         <select
           value={b}
           onChange={(event) => setB(event.target.value)}
-          className="rounded-md border border-slate-200 bg-white px-3 py-2 text-slate-800 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-600/20"
+          className="rounded-2xl border border-white/70 bg-white px-3 py-2.5 text-slate-800 outline-none ring-1 ring-slate-900/5 focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
         >
           <option value="">Select a company</option>
           {companies.map((company) => (
@@ -68,7 +68,7 @@ export function CompareControls({
         type="button"
         onClick={onCompare}
         disabled={!canCompare}
-        className="h-[42px] rounded-lg bg-teal-700 px-5 text-sm font-medium text-white transition hover:bg-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:hover:bg-slate-300"
+        className="h-[46px] rounded-full bg-slate-900 px-5 text-sm font-medium text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:hover:bg-slate-300"
       >
         Compare
       </button>

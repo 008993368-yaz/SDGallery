@@ -68,7 +68,7 @@ export function CompanyDirectory({ companies }: CompanyDirectoryProps) {
   }
 
   return (
-    <div className="mt-10 grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)]">
+    <div className="mt-10 grid gap-8 rounded-3xl border border-white/70 bg-white/55 p-4 shadow-sm ring-1 ring-slate-900/5 backdrop-blur lg:grid-cols-[16rem_minmax(0,1fr)] lg:p-6">
       <FilterSidebar
         options={filterOptions}
         filters={filters}

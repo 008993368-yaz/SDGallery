@@ -21,9 +21,9 @@ export default function AboutPage() {
   const contributors = getContributors();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
-      <section className="max-w-3xl">
-        <p className="text-sm font-medium uppercase tracking-wide text-teal-700">
+    <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14 lg:py-16">
+      <section className="max-w-3xl rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-sm ring-1 ring-slate-900/5 backdrop-blur sm:p-8">
+        <p className="text-sm font-medium uppercase tracking-[0.24em] text-teal-700">
           About {SITE_NAME}
         </p>
         <h1 className="mt-2 font-display text-4xl tracking-tight text-slate-900 sm:text-5xl">
@@ -36,7 +36,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="mt-16">
+      <section className="mt-14 rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-sm ring-1 ring-slate-900/5 backdrop-blur sm:p-8">
         <h2 className="font-display text-2xl text-slate-900">How content is sourced</h2>
         <p className="mt-2 max-w-2xl text-slate-600">
           Explanations are synthesized from public sources such as company eng
@@ -52,7 +52,7 @@ export default function AboutPage() {
         </ul>
       </section>
 
-      <section className="mt-16">
+      <section className="mt-14 rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-sm ring-1 ring-slate-900/5 backdrop-blur sm:p-8">
         <h2 className="font-display text-2xl text-slate-900">How to Contribute</h2>
         <p className="mt-2 max-w-2xl text-slate-600">
           Content lives as MDX in GitHub. Improvements ship as pull requests.
@@ -68,7 +68,7 @@ export default function AboutPage() {
         </p>
       </section>
 
-      <section className="mt-16">
+      <section className="mt-14 rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-sm ring-1 ring-slate-900/5 backdrop-blur sm:p-8">
         <h2 className="font-display text-2xl text-slate-900">Contributors</h2>
         <div className="mt-6">
           <ContributorGrid contributors={contributors} />

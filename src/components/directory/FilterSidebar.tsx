@@ -63,7 +63,7 @@ export function FilterSidebar({
   onChange,
 }: FilterSidebarProps) {
   return (
-    <aside className="space-y-6 rounded-xl border border-slate-200/80 bg-white/80 p-5">
+    <aside className="space-y-6 rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm ring-1 ring-slate-900/5 backdrop-blur">
       <div className="flex items-center justify-between gap-2">
         <h2 className="font-display text-lg tracking-tight text-slate-900">
           Filters

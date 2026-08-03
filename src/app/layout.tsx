@@ -30,7 +30,11 @@ export default function RootLayout({
       lang="en"
       className={`${dmSans.variable} ${sourceSerif.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="relative isolate flex min-h-full flex-col overflow-x-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[32rem] bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.2),_transparent_42%),radial-gradient(circle_at_80%_20%,_rgba(96,165,250,0.18),_transparent_30%),radial-gradient(circle_at_20%_10%,_rgba(168,85,247,0.1),_transparent_24%),linear-gradient(180deg,_rgba(255,255,255,0.8),_transparent_62%)]"
+        />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

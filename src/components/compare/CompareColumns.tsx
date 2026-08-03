@@ -23,12 +23,12 @@ function SideHeader({ name, logo }: { name: string; logo: string }) {
           alt=""
           width={44}
           height={44}
-          className="h-11 w-11 rounded-lg border border-slate-100 bg-white object-contain p-1"
+          className="h-11 w-11 rounded-2xl border border-slate-100 bg-white object-contain p-1"
         />
       ) : (
         <div
           aria-hidden
-          className="flex h-11 w-11 items-center justify-center rounded-lg bg-slate-100 text-sm font-semibold text-slate-500"
+          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-100 text-sm font-semibold text-slate-500"
         >
           {name.slice(0, 1)}
         </div>
@@ -55,7 +55,7 @@ export function CompareColumns({
 }: CompareColumnsProps) {
   return (
     <div className="compare-columns mt-10">
-      <div className="grid gap-8 md:grid-cols-[1fr_auto_1fr] md:gap-0">
+      <div className="grid gap-8 rounded-3xl border border-white/70 bg-white/70 p-5 shadow-sm ring-1 ring-slate-900/5 md:grid-cols-[1fr_auto_1fr] md:gap-0">
         <div className="md:pr-8">
           <SideHeader name={left.name} logo={left.logo} />
         </div>
@@ -87,7 +87,7 @@ export function CompareColumns({
             return (
               <section
                 key={title}
-                className="mt-10 border-t border-slate-200 pt-8"
+                className="mt-10 rounded-3xl border border-white/70 bg-white/70 p-5 shadow-sm ring-1 ring-slate-900/5"
               >
                 <h3 className="font-display text-lg tracking-tight text-slate-900 md:text-center">
                   {title}

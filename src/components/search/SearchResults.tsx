@@ -66,7 +66,7 @@ export function SearchResults({
 
   return (
     <div className="mt-10 grid gap-8 lg:grid-cols-[14rem_1fr]">
-      <aside className="space-y-6 rounded-xl border border-slate-200/80 bg-white/80 p-5 h-fit">
+      <aside className="h-fit space-y-6 rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm ring-1 ring-slate-900/5 backdrop-blur">
         <div className="flex items-center justify-between gap-2">
           <h2 className="font-display text-lg tracking-tight text-slate-900">
             Filters
@@ -119,18 +119,19 @@ export function SearchResults({
       </aside>
 
       <section>
-        <p className="mb-4 text-sm text-slate-600">
-          {hits.length} {hits.length === 1 ? "result" : "results"}
+        <div className="mb-4 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+          <span className="rounded-full bg-white/80 px-3 py-1 font-medium text-slate-700 ring-1 ring-slate-900/5">
+            {hits.length} {hits.length === 1 ? "result" : "results"}
+          </span>
           {q.trim() ? (
-            <>
-              {" "}
+            <span>
               for <span className="font-medium text-slate-800">“{q.trim()}”</span>
-            </>
+            </span>
           ) : null}
-        </p>
+        </div>
 
         {hits.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-slate-300 bg-white/60 px-6 py-12 text-center">
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white/60 px-6 py-12 text-center backdrop-blur">
             <p className="font-display text-xl tracking-tight text-slate-900">
               {emptyLabel}
             </p>

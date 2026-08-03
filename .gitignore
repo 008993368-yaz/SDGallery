@@ -45,3 +45,4 @@ next-env.d.ts
 build-ok.txt
 vercel-*.txt
 .npm-cache/
+.superpowers

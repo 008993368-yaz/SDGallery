@@ -31,7 +31,7 @@ Patterns: [CDN](/patterns/cdn), [rate limiting](/patterns/rate-limiting), [cachi
 flowchart LR
   User -->|Anycast| POP[Edge POP]
   POP --> RL[Rate limiting]
-  RL -->|allow| Cache{(Cache lookup)}
+  RL -->|allow| Cache{Cache lookup}
   Cache -->|hit| User
   Cache -->|miss| OriginLB[Origin load balancing]
   OriginLB --> Origin[(Customer origin)]
