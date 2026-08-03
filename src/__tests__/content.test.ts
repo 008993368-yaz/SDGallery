@@ -5,6 +5,9 @@ import {
   getPatterns,
   getPrimaryCaseStudyForCompany,
   getSearchIndex,
+  getV2LearningPath,
+  getV2LearningPaths,
+  getV2ScopeDocument,
 } from "@/lib/content";
 
 describe("content loaders", () => {
@@ -26,5 +29,14 @@ describe("content loaders", () => {
     const study = getCaseStudy("netflix-video-streaming");
     expect(study?.body).toContain("## Problem & Requirements");
     expect(study?.body).toContain("## Key Components");
+  });
+
+  it("loads phase 1 scope and taxonomy definitions", () => {
+    const scope = getV2ScopeDocument();
+    expect(scope.productScope.objective).toContain("SDGallery V2");
+    expect(scope.productScope.nonGoals).toContain("Authentication or user accounts");
+    expect(scope.taxonomy.pillars.some((pillar) => pillar.slug === "fundamentals")).toBe(true);
+    expect(getV2LearningPaths().length).toBeGreaterThan(0);
+    expect(getV2LearningPath("beginner-systems-foundations")?.difficulty).toBe("beginner");
   });
 });

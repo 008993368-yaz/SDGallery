@@ -1,7 +1,16 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import type { CaseStudy, Company, Contributor, Pattern, SearchHit } from "./types";
+import type {
+  CaseStudy,
+  Company,
+  Contributor,
+  Pattern,
+  SearchHit,
+  V2LearningPath,
+  V2ScopeDocument,
+  V2TaxonomyPillar,
+} from "./types";
 
 const contentRoot = path.join(process.cwd(), "content");
 
@@ -18,6 +27,44 @@ function loadMdx<T>(filePath: string): T & { body: string } {
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
   return { ...(data as T), body: content };
+}
+
+function getV2ScopeFilePath(): string {
+  return path.join(contentRoot, "v2", "scope-and-taxonomy.json");
+}
+
+export function getV2ScopeDocument(): V2ScopeDocument {
+  const filePath = getV2ScopeFilePath();
+  if (!fs.existsSync(filePath)) {
+    return {
+      version: "0.0.0",
+      productScope: {
+        objective: "",
+        successMetrics: [],
+        guidingPrinciples: [],
+        nonGoals: [],
+      },
+      taxonomy: {
+        pillars: [],
+        learningPaths: [],
+      },
+    };
+  }
+
+  const raw = fs.readFileSync(filePath, "utf8");
+  return JSON.parse(raw) as V2ScopeDocument;
+}
+
+export function getV2TaxonomyPillars(): V2TaxonomyPillar[] {
+  return getV2ScopeDocument().taxonomy.pillars;
+}
+
+export function getV2LearningPaths(): V2LearningPath[] {
+  return getV2ScopeDocument().taxonomy.learningPaths;
+}
+
+export function getV2LearningPath(slug: string): V2LearningPath | undefined {
+  return getV2LearningPaths().find((pathEntry) => pathEntry.slug === slug);
 }
 
 export function getCompanies(): Company[] {
