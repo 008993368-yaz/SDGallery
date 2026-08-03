@@ -31,6 +31,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) to add content via pull request.
 
 - Spec: [docs/superpowers/specs/2026-08-01-sdgallery-design.md](./docs/superpowers/specs/2026-08-01-sdgallery-design.md)
 - Plan: [docs/superpowers/plans/2026-08-01-sdgallery-v1.md](./docs/superpowers/plans/2026-08-01-sdgallery-v1.md)
+- V2 phase 1 scope + taxonomy: [docs/superpowers/plans/2026-08-02-sdgallery-v2-phase1-scope-taxonomy.md](./docs/superpowers/plans/2026-08-02-sdgallery-v2-phase1-scope-taxonomy.md)
 
 ## Stack
 

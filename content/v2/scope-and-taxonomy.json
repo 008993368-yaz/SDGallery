@@ -1,0 +1,165 @@
+{
+  "version": "2026-08-02",
+  "productScope": {
+    "objective": "Ship SDGallery V2 as a stronger learning product with guided paths, richer diagrams, and better contributor workflows while keeping the current Next.js + MDX architecture.",
+    "successMetrics": [
+      {
+        "name": "Pathway clarity",
+        "description": "Beginner visitors can start a guided path without hitting dead ends.",
+        "target": "One beginner-ready path is fully navigable from entry to completion"
+      },
+      {
+        "name": "Content discoverability",
+        "description": "Readers can find relevant concepts and case studies through the new taxonomy.",
+        "target": "At least three distinct taxonomy pillars and two learning paths are published"
+      },
+      {
+        "name": "Contributor confidence",
+        "description": "Contributors can add new content with fewer manual decisions.",
+        "target": "Templates and validation rules exist for required metadata"
+      }
+    ],
+    "guidingPrinciples": [
+      "Keep content-first workflow with Markdown and MDX in the repository.",
+      "Prefer progressive enhancement over a rewrite.",
+      "Preserve beginner-friendly clarity.",
+      "Raise quality with validation and automation, not process overhead."
+    ],
+    "nonGoals": [
+      "Authentication or user accounts",
+      "A full CMS or database-backed editor",
+      "In-app comments or discussion",
+      "Paid features or membership",
+      "A heavy backend analytics stack"
+    ]
+  },
+  "taxonomy": {
+    "pillars": [
+      {
+        "slug": "fundamentals",
+        "title": "Fundamentals",
+        "summary": "Core concepts that help newcomers understand the vocabulary and building blocks of distributed systems.",
+        "order": 1,
+        "topics": [
+          {
+            "slug": "system-design-basics",
+            "title": "System design basics",
+            "description": "Loads, latency, throughput, consistency, and trade-offs."
+          },
+          {
+            "slug": "storage-and-data-models",
+            "title": "Storage and data models",
+            "description": "How data stores and APIs influence end-to-end architecture."
+          }
+        ],
+        "recommendedEntryPoints": [
+          "load-balancing",
+          "caching"
+        ]
+      },
+      {
+        "slug": "video-systems",
+        "title": "Video systems",
+        "summary": "Case studies about media delivery, streaming, encoding, and personalization at scale.",
+        "order": 2,
+        "topics": [
+          {
+            "slug": "streaming-architecture",
+            "title": "Streaming architecture",
+            "description": "How large video platforms move data from ingest to playback."
+          },
+          {
+            "slug": "content-delivery",
+            "title": "Content delivery",
+            "description": "How edge networks and CDNs reduce latency and improve resilience."
+          }
+        ],
+        "recommendedEntryPoints": [
+          "video-streaming"
+        ]
+      },
+      {
+        "slug": "edge-cdn",
+        "title": "Edge and CDN",
+        "summary": "Patterns focused on regional delivery, caching, and reducing the cost of serving global traffic.",
+        "order": 3,
+        "topics": [
+          {
+            "slug": "regional-routing",
+            "title": "Regional routing",
+            "description": "How traffic is routed to the nearest suitable edge location."
+          },
+          {
+            "slug": "cache-invalidation",
+            "title": "Cache invalidation",
+            "description": "How invalidation and refresh pipelines stay consistent."
+          }
+        ],
+        "recommendedEntryPoints": [
+          "cdn"
+        ]
+      }
+    ],
+    "learningPaths": [
+      {
+        "slug": "beginner-systems-foundations",
+        "title": "Beginner systems foundations",
+        "audience": "Newcomers",
+        "difficulty": "beginner",
+        "summary": "A guided introduction to the vocabulary, patterns, and case studies that make SDGallery easier to navigate.",
+        "pillars": [
+          "fundamentals"
+        ],
+        "prerequisites": [],
+        "contentRefs": [
+          {
+            "type": "pattern",
+            "slug": "load-balancing",
+            "title": "Load balancing"
+          },
+          {
+            "type": "pattern",
+            "slug": "caching",
+            "title": "Caching"
+          },
+          {
+            "type": "case-study",
+            "slug": "netflix-video-streaming",
+            "title": "Netflix: video streaming"
+          }
+        ]
+      },
+      {
+        "slug": "video-streaming-journey",
+        "title": "Video streaming journey",
+        "audience": "Readers with basic distributed systems context",
+        "difficulty": "intermediate",
+        "summary": "A pathway that connects media delivery, edge networks, and the core patterns behind large-scale streaming services.",
+        "pillars": [
+          "video-systems",
+          "edge-cdn"
+        ],
+        "prerequisites": [
+          "beginner-systems-foundations"
+        ],
+        "contentRefs": [
+          {
+            "type": "case-study",
+            "slug": "netflix-video-streaming",
+            "title": "Netflix: video streaming"
+          },
+          {
+            "type": "pattern",
+            "slug": "cdn",
+            "title": "CDN"
+          },
+          {
+            "type": "company",
+            "slug": "netflix",
+            "title": "Netflix"
+          }
+        ]
+      }
+    ]
+  }
+}

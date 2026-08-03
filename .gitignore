@@ -46,3 +46,5 @@ build-ok.txt
 vercel-*.txt
 .npm-cache/
 .superpowers
+/docs/superpowers
+/V2_Roadmap.md
