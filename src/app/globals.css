@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f6f8fb;
+  --foreground: #0f172a;
+  --accent: #0f766e;
+  --panel: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-panel: var(--panel);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+}
+
+body {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(125, 211, 252, 0.34) 0%, transparent 58%),
+    radial-gradient(ellipse 50% 35% at 10% 0%, rgba(45, 212, 191, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 25% at 90% 15%, rgba(168, 85, 247, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, #f9fbfc 0%, #eef4f7 100%);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, sans-serif;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent 72%);
+}
+
+::selection {
+  background: rgba(13, 148, 136, 0.18);
+  color: #0f172a;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+}
+
+@keyframes compare-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.compare-columns {
+  animation: compare-enter 0.45s ease-out;
+}
