@@ -31,6 +31,26 @@ describe("content loaders", () => {
     expect(study?.body).toContain("## Key Components");
   });
 
+  it("loads phase 2 learning metadata on Netflix", () => {
+    const study = getCaseStudy("netflix-video-streaming");
+    expect(study?.difficulty).toBe("beginner");
+    expect(study?.estimatedReadingMinutes).toBe(3);
+    expect(study?.learningObjectives.length).toBeGreaterThanOrEqual(2);
+    expect(study?.prerequisites).toEqual([
+      { type: "pattern", slug: "load-balancing" },
+      { type: "pattern", slug: "caching" },
+    ]);
+  });
+
+  it("includes difficulty on pattern and case-study search hits", () => {
+    const index = getSearchIndex();
+    const caching = index.find((hit) => hit.type === "pattern" && hit.slug === "caching");
+    expect(caching?.difficulty).toBe("beginner");
+    expect(caching?.estimatedReadingMinutes).toBe(2);
+    const netflixCo = index.find((hit) => hit.type === "company" && hit.slug === "netflix");
+    expect(netflixCo?.difficulty).toBeUndefined();
+  });
+
   it("loads phase 1 scope and taxonomy definitions", () => {
     const scope = getV2ScopeDocument();
     expect(scope.productScope.objective).toContain("SDGallery V2");

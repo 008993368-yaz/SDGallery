@@ -6,6 +6,7 @@ import { RelatedSidebar } from "@/components/case-study/RelatedSidebar";
 import { SectionNav } from "@/components/case-study/SectionNav";
 import { SourcesList } from "@/components/case-study/SourcesList";
 import { StatBar } from "@/components/case-study/StatBar";
+import { LearningMeta } from "@/components/content/LearningMeta";
 import { Diagram } from "@/components/diagram/Diagram";
 import { MdxBody } from "@/components/mdx/MdxBody";
 import {
@@ -13,9 +14,10 @@ import {
   getCaseStudy,
   getCompany,
   getPattern,
+  getPrerequisiteLinks,
   getPrimaryCaseStudyForCompany,
 } from "@/lib/content";
-import { SITE_NAME } from "@/lib/constants";
+import { CASE_STUDY_H2_TITLES, SITE_NAME } from "@/lib/constants";
 import {
   extractFirstMermaid,
   extractFurtherReading,
@@ -23,16 +25,6 @@ import {
 } from "@/lib/mdx";
 import { extractSections } from "@/lib/sections";
 import type { ContentSection } from "@/lib/types";
-
-const CASE_STUDY_H2_TITLES = [
-  "Problem & Requirements",
-  "High-Level Design",
-  "Key Components",
-  "Deep Dives",
-  "Trade-offs",
-  "Evolution",
-  "Sources",
-] as const;
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -89,6 +81,8 @@ export default async function CaseStudyPage({ params }: PageProps) {
     })
     .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
+  const prerequisites = getPrerequisiteLinks(study.prerequisites);
+
   const mainSections = sections.filter((s) => s.title !== "Sources");
 
   return (
@@ -123,6 +117,12 @@ export default async function CaseStudyPage({ params }: PageProps) {
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           {study.hook}
         </p>
+        <LearningMeta
+          difficulty={study.difficulty}
+          estimatedReadingMinutes={study.estimatedReadingMinutes}
+          learningObjectives={study.learningObjectives}
+          prerequisites={prerequisites}
+        />
         <StatBar stats={study.stats} />
       </header>
 

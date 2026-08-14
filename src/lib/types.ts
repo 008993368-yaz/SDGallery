@@ -1,46 +1,20 @@
-export type Company = {
-  name: string;
-  slug: string;
-  logo: string;
-  industry: string;
-  scale: string;
-  techStack: string[];
-  summary: string;
-  popularity: number;
-  updatedAt: string;
-  body: string;
-};
+import type {
+  CaseStudyFrontmatter,
+  CaseStudyStats as CaseStudyStatsFrontmatter,
+  CompanyFrontmatter,
+  Difficulty,
+  PatternFrontmatter,
+} from "./content-schema";
 
-export type Pattern = {
-  name: string;
-  slug: string;
-  icon: string;
-  definition: string;
-  relatedPatterns: string[];
-  publishedAt: string;
-  body: string;
-};
+export type { Difficulty, PrerequisiteRef } from "./content-schema";
 
-export type CaseStudyStats = {
-  users: string;
-  rps: string;
-  dataVolume: string;
-  regions: string;
-};
+export type Company = CompanyFrontmatter & { body: string };
 
-export type CaseStudy = {
-  title: string;
-  slug: string;
-  company: string;
-  patterns: string[];
-  stats: CaseStudyStats;
-  featured: boolean;
-  publishedAt: string;
-  updatedAt: string;
-  relatedCompanies: string[];
-  hook: string;
-  body: string;
-};
+export type Pattern = PatternFrontmatter & { body: string };
+
+export type CaseStudyStats = CaseStudyStatsFrontmatter;
+
+export type CaseStudy = CaseStudyFrontmatter & { body: string };
 
 export type SearchHitType = "company" | "pattern" | "case-study";
 
@@ -51,6 +25,8 @@ export type SearchHit = {
   industry?: string;
   snippet: string;
   href: string;
+  difficulty?: Difficulty;
+  estimatedReadingMinutes?: number;
 };
 
 export type ContentSection = {

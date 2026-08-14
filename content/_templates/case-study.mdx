@@ -1,0 +1,60 @@
+---
+title: "How Example Serves Users at Scale"
+slug: example-at-scale
+company: example
+patterns: [caching]
+stats:
+  users: "100M+"
+  rps: "millions"
+  dataVolume: "petabytes"
+  regions: "50+"
+featured: false
+publishedAt: "2026-08-01"
+updatedAt: "2026-08-01"
+relatedCompanies: []
+hook: "One-line card hook"
+difficulty: intermediate
+prerequisites:
+  - type: pattern
+    slug: caching
+estimatedReadingMinutes: 4
+learningObjectives:
+  - Map the high-level design to the patterns in play
+  - Identify the main trade-offs in the write-up
+---
+
+## Problem & Requirements
+
+What the system must do, in plain language.
+
+## High-Level Design
+
+Walk through the request path and name the patterns in play.
+
+```mermaid
+flowchart LR
+  Client --> Edge
+  Edge --> Origin
+```
+
+## Key Components
+
+- **Component** — what it does.
+
+## Deep Dives
+
+### Caching
+
+A closer look at one pattern from this design.
+
+## Trade-offs
+
+- **Choice A vs. choice B** — what you gain and give up.
+
+## Evolution
+
+How the architecture changed over time.
+
+## Sources
+
+- [Public engineering blog post](https://example.com)
