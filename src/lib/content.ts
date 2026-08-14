@@ -1,11 +1,19 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import type { z } from "zod";
+import {
+  caseStudyFrontmatterSchema,
+  companyFrontmatterSchema,
+  parseFrontmatter,
+  patternFrontmatterSchema,
+} from "./content-schema";
 import type {
   CaseStudy,
   Company,
   Contributor,
   Pattern,
+  PrerequisiteRef,
   SearchHit,
   V2LearningPath,
   V2ScopeDocument,
@@ -23,10 +31,14 @@ function readMdxFiles(subdir: string): string[] {
     .map((name) => path.join(dir, name));
 }
 
-function loadMdx<T>(filePath: string): T & { body: string } {
+function loadMdx<T>(
+  filePath: string,
+  schema: z.ZodType<T, z.ZodTypeDef, unknown>,
+): T & { body: string } {
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
-  return { ...(data as T), body: content };
+  const parsed = parseFrontmatter(schema, data, filePath);
+  return { ...parsed, body: content };
 }
 
 function getV2ScopeFilePath(): string {
@@ -69,7 +81,7 @@ export function getV2LearningPath(slug: string): V2LearningPath | undefined {
 
 export function getCompanies(): Company[] {
   return readMdxFiles("companies")
-    .map((file) => loadMdx<Omit<Company, "body">>(file))
+    .map((file) => loadMdx(file, companyFrontmatterSchema))
     .sort((a, b) => b.popularity - a.popularity || a.name.localeCompare(b.name));
 }
 
@@ -79,7 +91,7 @@ export function getCompany(slug: string): Company | undefined {
 
 export function getPatterns(): Pattern[] {
   return readMdxFiles("patterns")
-    .map((file) => loadMdx<Omit<Pattern, "body">>(file))
+    .map((file) => loadMdx(file, patternFrontmatterSchema))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
@@ -89,7 +101,7 @@ export function getPattern(slug: string): Pattern | undefined {
 
 export function getCaseStudies(): CaseStudy[] {
   return readMdxFiles("case-studies")
-    .map((file) => loadMdx<Omit<CaseStudy, "body">>(file))
+    .map((file) => loadMdx(file, caseStudyFrontmatterSchema))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }
 
@@ -146,6 +158,8 @@ export function getSearchIndex(): SearchHit[] {
       title: pattern.name,
       snippet: pattern.definition,
       href: `/patterns/${pattern.slug}`,
+      difficulty: pattern.difficulty,
+      estimatedReadingMinutes: pattern.estimatedReadingMinutes,
     });
   }
 
@@ -157,10 +171,31 @@ export function getSearchIndex(): SearchHit[] {
       industry: companyBySlug.get(study.company)?.industry,
       snippet: study.hook,
       href: `/case-studies/${study.slug}`,
+      difficulty: study.difficulty,
+      estimatedReadingMinutes: study.estimatedReadingMinutes,
     });
   }
 
   return hits;
+}
+
+export function getPrerequisiteLinks(
+  refs: PrerequisiteRef[],
+): { href: string; label: string }[] {
+  return refs.map((ref) => {
+    if (ref.type === "pattern") {
+      const pattern = getPattern(ref.slug);
+      return {
+        href: `/patterns/${ref.slug}`,
+        label: pattern?.name ?? ref.slug,
+      };
+    }
+    const study = getCaseStudy(ref.slug);
+    return {
+      href: `/case-studies/${ref.slug}`,
+      label: study?.title ?? ref.slug,
+    };
+  });
 }
 
 export function getContributors(): Contributor[] {

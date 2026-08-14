@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CaseStudyCard } from "@/components/cards/CaseStudyCard";
 import { RelatedSidebar } from "@/components/case-study/RelatedSidebar";
+import { LearningMeta } from "@/components/content/LearningMeta";
 import { Diagram } from "@/components/diagram/Diagram";
 import { MdxBody } from "@/components/mdx/MdxBody";
 import { PatternIcon } from "@/components/patterns/PatternIcon";
@@ -10,6 +11,7 @@ import {
   getCaseStudiesByPattern,
   getPattern,
   getPatterns,
+  getPrerequisiteLinks,
 } from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
 import {
@@ -52,6 +54,7 @@ export default async function PatternDetailPage({ params }: PageProps) {
   const furtherReading = extractFurtherReading(pattern.body).filter(
     (link) => !link.href.startsWith(`/patterns/${pattern.slug}`),
   );
+  const prerequisites = getPrerequisiteLinks(pattern.prerequisites);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
@@ -70,6 +73,12 @@ export default async function PatternDetailPage({ params }: PageProps) {
         <p className="mt-4 text-lg leading-relaxed text-slate-600">
           {pattern.definition}
         </p>
+        <LearningMeta
+          difficulty={pattern.difficulty}
+          estimatedReadingMinutes={pattern.estimatedReadingMinutes}
+          learningObjectives={pattern.learningObjectives}
+          prerequisites={prerequisites}
+        />
       </header>
 
       {chart ? (
