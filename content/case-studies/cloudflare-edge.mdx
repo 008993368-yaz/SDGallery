@@ -38,7 +38,7 @@ Anycast DNS and routing pull clients into a nearby POP. Inside the POP, proxies 
 
 Patterns: [CDN](/patterns/cdn), [rate limiting](/patterns/rate-limiting), [caching](/patterns/caching), [load balancing](/patterns/load-balancing).
 
-```mermaid
+```mermaid caption="High-level architecture" explanation="Anycast lands users at a nearby POP; rate limits and cache checks run before expensive origin work, and misses fill through health-aware origin load balancing."
 flowchart LR
   User -->|Anycast| POP[Edge POP]
   POP --> RL[Rate limiting]

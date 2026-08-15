@@ -20,6 +20,7 @@ After editing, run `npm run validate` (and `npm test`) locally before you open a
 | Starters (not published) | `content/_templates/` |
 | Contributors | `content/contributors.json` |
 | Logos | `public/logos/` |
+| Diagram assets (optional SVG/PNG) | `public/diagrams/` |
 
 ## Case study headings (required)
 
@@ -34,6 +35,22 @@ Use these exact `##` headings in order:
 7. Sources
 
 Include at least one Mermaid fence in the body (typically under High-Level Design). Patterns also need a Mermaid fence. The Sources section must include at least one markdown or URL link.
+
+You can annotate diagram fences with metadata so the UI shows a caption and a short learning-oriented explanation:
+
+````md
+```mermaid caption="High-level architecture" explanation="Client traffic hits the edge, then origin."
+flowchart LR
+  Client --> Edge --> Origin
+```
+````
+
+Optional static assets live under `public/diagrams/` and use a `diagram` fence (Mermaid is still required for validation):
+
+````md
+```diagram kind="image" src="/diagrams/example-hld.svg" caption="Static view" explanation="What to notice."
+```
+````
 
 `slug` in frontmatter must match the filename (`{slug}.mdx`). Cross-references (`company`, `patterns`, `relatedPatterns`, `relatedCompanies`, `prerequisites`) must point at real content.
 
@@ -76,7 +93,7 @@ learningObjectives:
 ---
 ```
 
-`difficulty` is `beginner`, `intermediate`, or `advanced`. `prerequisites` is a list of `{ type: pattern | case-study, slug }` (empty is allowed). `learningObjectives` needs 2–6 concrete outcomes. Include a Mermaid diagram in the body.
+`difficulty` is `beginner`, `intermediate`, or `advanced`. `prerequisites` is a list of `{ type: pattern | case-study, slug }` (empty is allowed). `learningObjectives` needs 2–6 concrete outcomes. Include a Mermaid diagram in the body (optionally with `caption` / `explanation` fence meta).
 
 ### Case study frontmatter
 
@@ -111,7 +128,8 @@ learningObjectives:
 
 - [ ] Required frontmatter fields present and valid (including learning metadata on patterns and case studies)
 - [ ] Case studies use the required H2 headings in order
-- [ ] Case studies and patterns include Mermaid diagrams
+- [ ] Case studies and patterns include Mermaid diagrams (caption/explanation meta encouraged)
+- [ ] Optional static diagrams under `public/diagrams/` use `` ```diagram kind="image" `` `` and do not replace the Mermaid requirement
 - [ ] Sources cite public eng blogs / talks (no insider claims)
 - [ ] Beginner-friendly language; jargon explained on first use
 - [ ] `npm run validate` and `npm test` pass locally

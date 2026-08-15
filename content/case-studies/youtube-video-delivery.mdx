@@ -38,7 +38,7 @@ Uploads land in ingest services, then fan out through processing pipelines into 
 
 Patterns: [caching](/patterns/caching), [CDN](/patterns/cdn), [load balancing](/patterns/load-balancing), [sharding](/patterns/sharding).
 
-```mermaid
+```mermaid caption="High-level architecture" explanation="Creators upload into ingest and processing; viewers hit a nearby CDN edge for segments while watch/metadata APIs sit behind load balancers over sharded stores."
 flowchart LR
   Creator -->|upload| Ingest
   Ingest --> Process[Transcode / process]

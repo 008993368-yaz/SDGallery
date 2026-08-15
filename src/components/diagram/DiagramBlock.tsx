@@ -13,7 +13,7 @@ export type DiagramBlockProps = {
   kind: DiagramBlockKind;
   chart?: string;
   src?: string;
-  caption: string;
+  caption?: string;
   explanation?: string;
   alt?: string;
 };
@@ -61,11 +61,11 @@ export function DiagramBlock({
   kind,
   chart,
   src,
-  caption,
+  caption = "",
   explanation,
   alt,
 }: DiagramBlockProps) {
-  const imageAlt = alt?.trim() || caption;
+  const imageAlt = alt?.trim() || caption || "Diagram";
 
   let visual: ReactNode;
   if (kind === "image") {

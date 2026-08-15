@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   extractFirstDiagram,
@@ -112,6 +114,26 @@ See [CDN](/patterns/cdn) and [caching](/patterns/caching).
       caption: "X",
       explanation: "Note",
     });
+  });
+
+  it("parses Netflix flagship fences with caption meta and static asset", () => {
+    const body = readFileSync(
+      join(process.cwd(), "content/case-studies/netflix-video-streaming.mdx"),
+      "utf8",
+    );
+    const hld = extractFirstDiagram(body);
+    expect(hld?.kind).toBe("mermaid");
+    expect(hld?.caption).toBe("High-level architecture");
+    expect(hld?.explanation).toMatch(/Open Connect/i);
+    expect(body).toContain(
+      '```diagram kind="image" src="/diagrams/netflix-hld.svg"',
+    );
+    expect(
+      readFileSync(
+        join(process.cwd(), "public/diagrams/netflix-hld.svg"),
+        "utf8",
+      ),
+    ).toContain("Open Connect");
   });
 
   it("strips mermaid and diagram fences from body", () => {

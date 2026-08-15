@@ -28,7 +28,7 @@ Video segments, images, and other bulky responses benefit from short network pat
 
 Choose a CDN when content is cacheable, audiences are geographically spread, or you need DDoS and TLS termination near users. Combine with [load balancing](/patterns/load-balancing) across POPs and origins. Netflix Open Connect, YouTube edge caches, and [Cloudflare’s edge](/case-studies/cloudflare-edge) are classic examples.
 
-```mermaid
+```mermaid caption="CDN overview" explanation="Users are steered to a nearby POP; cache hits stay at the edge, and misses pull from origin which then fills the POPs for the next request."
 flowchart TB
   User -->|nearest POP| EdgeA[Edge POP A]
   User2[User] -->|nearest POP| EdgeB[Edge POP B]

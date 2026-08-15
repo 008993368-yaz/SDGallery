@@ -38,7 +38,7 @@ At a high level, content is encoded offline, stored in the cloud, and pushed or 
 
 Patterns in play: [caching](/patterns/caching), [CDN](/patterns/cdn), [load balancing](/patterns/load-balancing), and [queues](/patterns/queues).
 
-```mermaid
+```mermaid caption="High-level architecture" explanation="Titles are encoded offline into origin storage, then pushed toward Open Connect so clients fetch most bytes from nearby caches; control-plane APIs stay on a separate, cache-friendly path."
 flowchart LR
   Studio[Content ingest] --> Encode[Encoding pipeline]
   Encode --> Origin[(Origin storage)]
@@ -67,6 +67,9 @@ Hot titles, manifests, and API responses live in memory or local disk near the r
 ### CDN
 
 Open Connect is Netflix’s answer to “put the bytes next to the audience.” Prepositioning popular titles before peak hours reduces origin fill during primetime. When a POP misses, fill traffic is carefully managed so one miss storm does not flatten upstream storage. Related: [CDN](/patterns/cdn) and edge themes in [Cloudflare’s case study](/case-studies/cloudflare-edge).
+
+```diagram kind="image" src="/diagrams/netflix-hld.svg" caption="Static view of the Netflix delivery path" explanation="Same story as the Mermaid HLD: ingest and encode feed origin, Open Connect serves the data plane, and control-plane APIs stay off the hot video path."
+```
 
 ## Trade-offs
 

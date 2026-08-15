@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-labelledby="title desc">
+  <title id="title">Netflix high-level delivery path</title>
+  <desc id="desc">Content flows from ingest through encoding into origin storage, then Open Connect edge caches serve clients while control-plane APIs stay separate.</desc>
+  <rect width="720" height="320" fill="#f8fafc"/>
+  <text x="24" y="36" font-family="Georgia, 'Times New Roman', serif" font-size="18" font-weight="700" fill="#0f172a">Netflix delivery path</text>
+  <text x="24" y="58" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" fill="#64748b">Encode once · cache at the edge · keep APIs off the video path</text>
+
+  <!-- Studio -->
+  <rect x="24" y="100" width="120" height="56" rx="8" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="84" y="124" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Content ingest</text>
+  <text x="84" y="142" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#64748b">Studio masters</text>
+
+  <!-- Encode -->
+  <rect x="184" y="100" width="120" height="56" rx="8" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="244" y="124" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Encoding</text>
+  <text x="244" y="142" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#64748b">ABR ladders</text>
+
+  <!-- Origin -->
+  <rect x="344" y="100" width="120" height="56" rx="8" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="404" y="124" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Origin storage</text>
+  <text x="404" y="142" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#64748b">Segments</text>
+
+  <!-- Open Connect -->
+  <rect x="504" y="100" width="192" height="56" rx="8" fill="#ecfdf5" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="600" y="124" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f766e">Open Connect / CDN</text>
+  <text x="600" y="142" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#0f766e">ISP-adjacent caches</text>
+
+  <!-- Client -->
+  <rect x="504" y="220" width="192" height="56" rx="8" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="600" y="244" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Playback client</text>
+  <text x="600" y="262" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#64748b">Manifests + segments</text>
+
+  <!-- APIs -->
+  <rect x="184" y="220" width="120" height="56" rx="8" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="244" y="244" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" fill="#0f172a">Control APIs</text>
+  <text x="244" y="262" text-anchor="middle" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="11" fill="#64748b">Catalog · license</text>
+
+  <!-- Arrows -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <line x1="144" y1="128" x2="184" y2="128" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="304" y1="128" x2="344" y2="128" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="464" y1="128" x2="504" y2="128" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="600" y1="156" x2="600" y2="220" stroke="#0f766e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="504" y1="248" x2="304" y2="248" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arrow)"/>
+</svg>
