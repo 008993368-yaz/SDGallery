@@ -7,7 +7,7 @@ import { SectionNav } from "@/components/case-study/SectionNav";
 import { SourcesList } from "@/components/case-study/SourcesList";
 import { StatBar } from "@/components/case-study/StatBar";
 import { LearningMeta } from "@/components/content/LearningMeta";
-import { Diagram } from "@/components/diagram/Diagram";
+import { DiagramBlock } from "@/components/diagram/DiagramBlock";
 import { MdxBody } from "@/components/mdx/MdxBody";
 import {
   getCaseStudies,
@@ -19,7 +19,7 @@ import {
 } from "@/lib/content";
 import { CASE_STUDY_H2_TITLES, SITE_NAME } from "@/lib/constants";
 import {
-  extractFirstMermaid,
+  extractFirstDiagram,
   extractFurtherReading,
   stripMermaidFences,
 } from "@/lib/mdx";
@@ -61,7 +61,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
   const sections = topLevelSections(extractSections(study.body));
   const hld = sections.find((s) => s.title === "High-Level Design");
   const deepDives = sections.find((s) => s.title === "Deep Dives");
-  const chart = hld ? extractFirstMermaid(hld.content) : null;
+  const chart = hld ? extractFirstDiagram(hld.content) : null;
   const sources = extractFurtherReading(study.body);
 
   const relatedPatterns = study.patterns
@@ -128,7 +128,13 @@ export default async function CaseStudyPage({ params }: PageProps) {
 
       {chart ? (
         <section className="mt-10">
-          <Diagram chart={chart} title="High-level architecture" />
+          <DiagramBlock
+            kind={chart.kind}
+            chart={chart.chart}
+            src={chart.src}
+            caption={chart.caption ?? "High-level architecture"}
+            explanation={chart.explanation}
+          />
         </section>
       ) : null}
 
