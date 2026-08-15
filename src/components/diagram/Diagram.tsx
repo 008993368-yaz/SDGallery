@@ -25,15 +25,21 @@ export function diagramSurfaceStatus(
   return "ready";
 }
 
+/**
+ * Public Diagram: remount inner state when `chart` changes so loading/error
+ * reset without synchronous setState at the top of an effect.
+ */
 export function Diagram({ chart, title }: DiagramProps) {
+  return <DiagramChart key={chart} chart={chart} title={title} />;
+}
+
+function DiagramChart({ chart, title }: DiagramProps) {
   const id = useId().replace(/:/g, "");
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
-    setSvg(null);
-    setError(false);
     if (!chart?.trim()) return;
     (async () => {
       try {
