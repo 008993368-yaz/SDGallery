@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { CaseStudyCard } from "@/components/cards/CaseStudyCard";
 import { RelatedSidebar } from "@/components/case-study/RelatedSidebar";
 import { LearningMeta } from "@/components/content/LearningMeta";
-import { Diagram } from "@/components/diagram/Diagram";
+import { DiagramBlock } from "@/components/diagram/DiagramBlock";
 import { MdxBody } from "@/components/mdx/MdxBody";
 import { PatternIcon } from "@/components/patterns/PatternIcon";
 import {
@@ -15,7 +15,7 @@ import {
 } from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
 import {
-  extractFirstMermaid,
+  extractFirstDiagram,
   extractFurtherReading,
   stripMermaidFences,
 } from "@/lib/mdx";
@@ -45,7 +45,7 @@ export default async function PatternDetailPage({ params }: PageProps) {
   const pattern = getPattern(slug);
   if (!pattern) notFound();
 
-  const chart = extractFirstMermaid(pattern.body);
+  const diagram = extractFirstDiagram(pattern.body);
   const bodyWithoutDiagram = stripMermaidFences(pattern.body);
   const studies = getCaseStudiesByPattern(pattern.slug);
   const relatedPatterns = pattern.relatedPatterns
@@ -81,9 +81,15 @@ export default async function PatternDetailPage({ params }: PageProps) {
         />
       </header>
 
-      {chart ? (
+      {diagram ? (
         <section className="mt-10">
-          <Diagram chart={chart} title={`${pattern.name} overview`} />
+          <DiagramBlock
+            kind={diagram.kind}
+            chart={diagram.chart}
+            src={diagram.src}
+            caption={diagram.caption ?? `${pattern.name} overview`}
+            explanation={diagram.explanation}
+          />
         </section>
       ) : null}
 

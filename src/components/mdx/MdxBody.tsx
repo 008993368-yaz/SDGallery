@@ -1,6 +1,7 @@
 import type { ComponentProps, ReactNode } from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Diagram } from "@/components/diagram/Diagram";
+import { DiagramBlock } from "@/components/diagram/DiagramBlock";
 import { prepareMdxSource } from "@/lib/mdx";
 import { slugifyHeading } from "@/lib/sections";
 
@@ -34,6 +35,7 @@ function Heading({
 
 const components = {
   Diagram,
+  DiagramBlock,
   h1: (props: ComponentProps<"h1">) => <Heading as="h1" {...props} />,
   h2: (props: ComponentProps<"h2">) => <Heading as="h2" {...props} />,
   h3: (props: ComponentProps<"h3">) => <Heading as="h3" {...props} />,

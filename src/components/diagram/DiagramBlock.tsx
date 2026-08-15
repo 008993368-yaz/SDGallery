@@ -80,9 +80,11 @@ export function DiagramBlock({
 
   return (
     <figure className="overflow-x-auto rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-      <figcaption className="mb-3 text-sm font-medium text-slate-600">
-        {caption}
-      </figcaption>
+      {caption.trim() ? (
+        <figcaption className="mb-3 text-sm font-medium text-slate-600">
+          {caption}
+        </figcaption>
+      ) : null}
       {visual}
       {explanation?.trim() ? (
         <p className="mt-3 text-sm leading-relaxed text-slate-600">
