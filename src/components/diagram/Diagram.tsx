@@ -2,20 +2,39 @@
 
 import { useEffect, useId, useState } from "react";
 
-type DiagramProps = {
+export type DiagramProps = {
   chart: string;
+  /** Optional caption when used without DiagramBlock (backward compatible). */
   title?: string;
-  kind?: "mermaid" | "excalidraw";
 };
 
-export function Diagram({ chart, title, kind = "mermaid" }: DiagramProps) {
+/** Shared copy for empty / failed diagram surfaces. */
+export const DIAGRAM_UNAVAILABLE =
+  "Diagram unavailable. The rest of this page still works.";
+
+export const DIAGRAM_LOADING = "Rendering diagram…";
+
+/** Pure status helper for tests and callers. */
+export function diagramSurfaceStatus(
+  chart: string | undefined,
+  error: boolean,
+  hasSvg: boolean,
+): "unavailable" | "loading" | "ready" {
+  if (error || !chart?.trim()) return "unavailable";
+  if (!hasSvg) return "loading";
+  return "ready";
+}
+
+export function Diagram({ chart, title }: DiagramProps) {
   const id = useId().replace(/:/g, "");
   const [svg, setSvg] = useState<string | null>(null);
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (kind !== "mermaid") return;
     let cancelled = false;
+    setSvg(null);
+    setError(false);
+    if (!chart?.trim()) return;
     (async () => {
       try {
         const mermaid = (await import("mermaid")).default;
@@ -24,8 +43,8 @@ export function Diagram({ chart, title, kind = "mermaid" }: DiagramProps) {
           securityLevel: "loose",
           theme: "neutral",
         });
-        const { svg } = await mermaid.render(`mmd-${id}`, chart);
-        if (!cancelled) setSvg(svg);
+        const { svg: rendered } = await mermaid.render(`mmd-${id}`, chart);
+        if (!cancelled) setSvg(rendered);
       } catch {
         if (!cancelled) setError(true);
       }
@@ -33,36 +52,35 @@ export function Diagram({ chart, title, kind = "mermaid" }: DiagramProps) {
     return () => {
       cancelled = true;
     };
-  }, [chart, id, kind]);
+  }, [chart, id]);
 
-  if (kind === "excalidraw") {
-    return (
-      <div className="rounded-lg border border-dashed border-slate-300 bg-white p-8 text-center text-slate-500">
-        Excalidraw diagrams arrive in v2.
-      </div>
-    );
-  }
+  const status = diagramSurfaceStatus(chart, error, Boolean(svg));
 
-  if (error || !chart?.trim()) {
-    return (
+  const surface =
+    status === "unavailable" ? (
       <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-500">
-        Diagram unavailable. The rest of this page still works.
+        {DIAGRAM_UNAVAILABLE}
+      </div>
+    ) : status === "ready" ? (
+      <div dangerouslySetInnerHTML={{ __html: svg! }} />
+    ) : (
+      <p className="text-sm text-slate-400">{DIAGRAM_LOADING}</p>
+    );
+
+  if (!title) {
+    return (
+      <div className="overflow-x-auto rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        {surface}
       </div>
     );
   }
 
   return (
     <figure className="overflow-x-auto rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-      {title ? (
-        <figcaption className="mb-3 text-sm font-medium text-slate-600">
-          {title}
-        </figcaption>
-      ) : null}
-      {svg ? (
-        <div dangerouslySetInnerHTML={{ __html: svg }} />
-      ) : (
-        <p className="text-sm text-slate-400">Rendering diagram…</p>
-      )}
+      <figcaption className="mb-3 text-sm font-medium text-slate-600">
+        {title}
+      </figcaption>
+      {surface}
     </figure>
   );
 }
