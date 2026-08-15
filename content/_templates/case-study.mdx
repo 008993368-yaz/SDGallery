@@ -31,10 +31,15 @@ What the system must do, in plain language.
 
 Walk through the request path and name the patterns in play.
 
-```mermaid
+```mermaid caption="High-level architecture" explanation="One or two sentences that teach the request path (who talks to whom, and why)."
 flowchart LR
   Client --> Edge
   Edge --> Origin
+```
+
+Optional richer asset (static SVG/PNG under `public/diagrams/`) — keep at least one Mermaid fence so validation still passes:
+
+```diagram kind="image" src="/diagrams/example-hld.svg" caption="Static view of the same design" explanation="What a reader should notice in the image."
 ```
 
 ## Key Components
