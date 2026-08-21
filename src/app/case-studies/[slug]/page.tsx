@@ -9,6 +9,7 @@ import { StatBar } from "@/components/case-study/StatBar";
 import { LearningMeta } from "@/components/content/LearningMeta";
 import { DiagramBlock } from "@/components/diagram/DiagramBlock";
 import { MdxBody } from "@/components/mdx/MdxBody";
+import { PathGuide } from "@/components/paths/PathGuide";
 import {
   getCaseStudies,
   getCaseStudy,
@@ -23,6 +24,7 @@ import {
   extractFurtherReading,
   stripMermaidFences,
 } from "@/lib/mdx";
+import { getPathGuidesForContent } from "@/lib/paths";
 import { extractSections } from "@/lib/sections";
 import type { ContentSection } from "@/lib/types";
 
@@ -82,6 +84,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
     .filter((c): c is NonNullable<typeof c> => Boolean(c));
 
   const prerequisites = getPrerequisiteLinks(study.prerequisites);
+  const pathGuides = getPathGuidesForContent("case-study", study.slug);
 
   const mainSections = sections.filter((s) => s.title !== "Sources");
 
@@ -123,6 +126,7 @@ export default async function CaseStudyPage({ params }: PageProps) {
           learningObjectives={study.learningObjectives}
           prerequisites={prerequisites}
         />
+        <PathGuide guides={pathGuides} />
         <StatBar stats={study.stats} />
       </header>
 

@@ -6,6 +6,7 @@ import { RelatedSidebar } from "@/components/case-study/RelatedSidebar";
 import { LearningMeta } from "@/components/content/LearningMeta";
 import { DiagramBlock } from "@/components/diagram/DiagramBlock";
 import { MdxBody } from "@/components/mdx/MdxBody";
+import { PathGuide } from "@/components/paths/PathGuide";
 import { PatternIcon } from "@/components/patterns/PatternIcon";
 import {
   getCaseStudiesByPattern,
@@ -19,6 +20,7 @@ import {
   extractFurtherReading,
   stripMermaidFences,
 } from "@/lib/mdx";
+import { getPathGuidesForContent } from "@/lib/paths";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -55,6 +57,7 @@ export default async function PatternDetailPage({ params }: PageProps) {
     (link) => !link.href.startsWith(`/patterns/${pattern.slug}`),
   );
   const prerequisites = getPrerequisiteLinks(pattern.prerequisites);
+  const pathGuides = getPathGuidesForContent("pattern", pattern.slug);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:py-16">
@@ -79,6 +82,7 @@ export default async function PatternDetailPage({ params }: PageProps) {
           learningObjectives={pattern.learningObjectives}
           prerequisites={prerequisites}
         />
+        <PathGuide guides={pathGuides} />
       </header>
 
       {diagram ? (

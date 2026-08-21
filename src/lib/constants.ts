@@ -14,6 +14,7 @@ export const CASE_STUDY_H2_TITLES = [
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },
+  { href: "/paths", label: "Paths" },
   { href: "/companies", label: "Companies" },
   { href: "/patterns", label: "Patterns" },
   { href: "/compare", label: "Compare" },
