@@ -33,9 +33,15 @@ export function ResultCard({ hit, q }: ResultCardProps) {
         className="text-sm leading-relaxed text-slate-600 [&_mark]:rounded-sm [&_mark]:bg-teal-100 [&_mark]:px-0.5 [&_mark]:text-teal-900"
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
-      {hit.industry ? (
-        <p className="text-xs font-medium text-slate-500">{hit.industry}</p>
-      ) : null}
+      <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs font-medium text-slate-500">
+        {hit.difficulty ? (
+          <span className="capitalize">{hit.difficulty}</span>
+        ) : null}
+        {typeof hit.estimatedReadingMinutes === "number" ? (
+          <span>{hit.estimatedReadingMinutes} min read</span>
+        ) : null}
+        {hit.industry ? <span>{hit.industry}</span> : null}
+      </div>
     </Link>
   );
 }

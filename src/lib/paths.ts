@@ -116,6 +116,31 @@ export function getPathsContainingContent(
   );
 }
 
+/** Paths related to a company via direct refs, primary study, or study patterns. */
+export function getLearningPathsForCompany(
+  companySlug: string,
+): V2LearningPath[] {
+  const bySlug = new Map<string, V2LearningPath>();
+
+  for (const path of getPathsContainingContent("company", companySlug)) {
+    bySlug.set(path.slug, path);
+  }
+
+  const primary = getPrimaryCaseStudyForCompany(companySlug);
+  if (primary) {
+    for (const path of getPathsContainingContent("case-study", primary.slug)) {
+      bySlug.set(path.slug, path);
+    }
+    for (const patternSlug of primary.patterns) {
+      for (const path of getPathsContainingContent("pattern", patternSlug)) {
+        bySlug.set(path.slug, path);
+      }
+    }
+  }
+
+  return [...bySlug.values()].sort((a, b) => a.title.localeCompare(b.title));
+}
+
 export function getPathStepNeighbors(
   pathSlug: string,
   type: PathContentKind | "pattern" | "case-study",

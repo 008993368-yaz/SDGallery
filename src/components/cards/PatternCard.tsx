@@ -21,6 +21,11 @@ export function PatternCard({ pattern }: PatternCardProps) {
       <p className="text-sm leading-relaxed text-slate-600">
         {pattern.definition}
       </p>
+      <p className="text-xs font-medium text-slate-500">
+        <span className="capitalize">{pattern.difficulty}</span>
+        <span aria-hidden="true"> · </span>
+        {pattern.estimatedReadingMinutes} min read
+      </p>
     </Link>
   );
 }

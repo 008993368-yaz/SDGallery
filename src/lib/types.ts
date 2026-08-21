@@ -27,6 +27,7 @@ export type SearchHit = {
   href: string;
   difficulty?: Difficulty;
   estimatedReadingMinutes?: number;
+  learningObjectives?: string[];
 };
 
 export type ContentSection = {

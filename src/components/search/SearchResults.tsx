@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ResultCard } from "@/components/cards/ResultCard";
-import type { SearchHit, SearchHitType } from "@/lib/types";
+import type { Difficulty, SearchHit, SearchHitType } from "@/lib/types";
 
 const TYPE_OPTIONS: { value: SearchHitType; label: string }[] = [
   { value: "company", label: "Company" },
@@ -9,11 +9,18 @@ const TYPE_OPTIONS: { value: SearchHitType; label: string }[] = [
   { value: "case-study", label: "Case study" },
 ];
 
+const DIFFICULTY_OPTIONS: { value: Difficulty; label: string }[] = [
+  { value: "beginner", label: "Beginner" },
+  { value: "intermediate", label: "Intermediate" },
+  { value: "advanced", label: "Advanced" },
+];
+
 type SearchResultsProps = {
   hits: SearchHit[];
   q: string;
   type?: string;
   industry?: string;
+  difficulty?: Difficulty;
   industries: string[];
 };
 
@@ -21,11 +28,13 @@ function searchHref(opts: {
   q?: string;
   type?: string;
   industry?: string;
+  difficulty?: string;
 }): string {
   const params = new URLSearchParams();
   if (opts.q?.trim()) params.set("q", opts.q.trim());
   if (opts.type) params.set("type", opts.type);
   if (opts.industry) params.set("industry", opts.industry);
+  if (opts.difficulty) params.set("difficulty", opts.difficulty);
   const qs = params.toString();
   return qs ? `/search?${qs}` : "/search";
 }
@@ -58,6 +67,7 @@ export function SearchResults({
   q,
   type,
   industry,
+  difficulty,
   industries,
 }: SearchResultsProps) {
   const emptyLabel = q.trim()
@@ -71,7 +81,7 @@ export function SearchResults({
           <h2 className="font-display text-lg tracking-tight text-slate-900">
             Filters
           </h2>
-          {(type || industry) && (
+          {(type || industry || difficulty) && (
             <Link
               href={searchHref({ q })}
               className="text-xs font-medium text-teal-700 hover:text-teal-900"
@@ -85,14 +95,48 @@ export function SearchResults({
           <legend className="mb-2 text-sm font-semibold text-slate-800">
             Type
           </legend>
-          <FilterLink href={searchHref({ q, industry })} active={!type}>
+          <FilterLink
+            href={searchHref({ q, industry, difficulty })}
+            active={!type}
+          >
             All
           </FilterLink>
           {TYPE_OPTIONS.map((option) => (
             <FilterLink
               key={option.value}
-              href={searchHref({ q, type: option.value, industry })}
+              href={searchHref({
+                q,
+                type: option.value,
+                industry,
+                difficulty,
+              })}
               active={type === option.value}
+            >
+              {option.label}
+            </FilterLink>
+          ))}
+        </fieldset>
+
+        <fieldset className="space-y-1">
+          <legend className="mb-2 text-sm font-semibold text-slate-800">
+            Difficulty
+          </legend>
+          <FilterLink
+            href={searchHref({ q, type, industry })}
+            active={!difficulty}
+          >
+            All
+          </FilterLink>
+          {DIFFICULTY_OPTIONS.map((option) => (
+            <FilterLink
+              key={option.value}
+              href={searchHref({
+                q,
+                type,
+                industry,
+                difficulty: option.value,
+              })}
+              active={difficulty === option.value}
             >
               {option.label}
             </FilterLink>
@@ -103,13 +147,16 @@ export function SearchResults({
           <legend className="mb-2 text-sm font-semibold text-slate-800">
             Industry
           </legend>
-          <FilterLink href={searchHref({ q, type })} active={!industry}>
+          <FilterLink
+            href={searchHref({ q, type, difficulty })}
+            active={!industry}
+          >
             All
           </FilterLink>
           {industries.map((name) => (
             <FilterLink
               key={name}
-              href={searchHref({ q, type, industry: name })}
+              href={searchHref({ q, type, industry: name, difficulty })}
               active={industry === name}
             >
               {name}
