@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CaseStudyCard } from "@/components/cards/CaseStudyCard";
 import { PatternPill } from "@/components/cards/PatternPill";
+import { PathCard } from "@/components/paths/PathCard";
 import { SearchBox } from "@/components/search/SearchBox";
 import {
   getCaseStudies,
@@ -8,7 +9,11 @@ import {
   getFeaturedCaseStudies,
   getPatterns,
   getRecentCaseStudies,
+  getV2LearningPath,
+  getV2LearningPaths,
 } from "@/lib/content";
+
+const BEGINNER_PATH_SLUG = "beginner-systems-foundations";
 
 export default function Home() {
   const allCaseStudies = getCaseStudies();
@@ -16,6 +21,9 @@ export default function Home() {
   const featured = getFeaturedCaseStudies();
   const patterns = getPatterns();
   const recent = getRecentCaseStudies(6);
+  const learningPaths = getV2LearningPaths();
+  const beginnerPath =
+    getV2LearningPath(BEGINNER_PATH_SLUG) ?? learningPaths[0];
   const stats = [
     { label: "Case studies", value: allCaseStudies.length },
     { label: "Patterns", value: patterns.length },
@@ -38,16 +46,25 @@ export default function Home() {
             Learn how the world&apos;s best engineering teams build at scale
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-slate-600">
-            Start with real company case studies and core patterns - plain language
-            for beginners, grounded in public engineering writeups.
+            Start with a guided path through core patterns and real company case
+            studies - plain language for beginners, grounded in public engineering
+            writeups.
           </p>
           <div className="mt-8 max-w-2xl">
             <SearchBox size="large" />
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
+            {beginnerPath ? (
+              <Link
+                href={`/paths/${beginnerPath.slug}`}
+                className="rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800"
+              >
+                Start here
+              </Link>
+            ) : null}
             <Link
               href="/companies"
-              className="rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-800"
+              className="rounded-full border border-white/70 bg-white/80 px-5 py-3 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-slate-900/5 transition hover:-translate-y-0.5 hover:border-teal-500/30 hover:text-teal-800"
             >
               Explore companies
             </Link>
@@ -69,7 +86,7 @@ export default function Home() {
             Why it feels different
           </p>
           <ul className="mt-5 space-y-4 text-sm leading-relaxed text-slate-300">
-            <li>Visual cards surface the most relevant case studies first.</li>
+            <li>Guided paths take you from foundations to flagship case studies.</li>
             <li>Pattern pills give you a quick path into the building blocks.</li>
             <li>Compare mode lets you line up two companies side by side.</li>
           </ul>
@@ -88,6 +105,35 @@ export default function Home() {
           </div>
         </aside>
       </section>
+
+      {learningPaths.length > 0 ? (
+        <section className="mt-14">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-sm font-medium uppercase tracking-[0.24em] text-teal-700">
+                Start here
+              </p>
+              <h2 className="mt-2 font-display text-2xl tracking-tight text-slate-900">
+                Pathway highlights
+              </h2>
+              <p className="mt-1 max-w-2xl text-sm text-slate-600">
+                Follow a curated sequence instead of browsing from scratch.
+              </p>
+            </div>
+            <Link
+              href="/paths"
+              className="text-sm font-medium text-teal-800 hover:text-teal-950"
+            >
+              All paths →
+            </Link>
+          </div>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2">
+            {learningPaths.map((path) => (
+              <PathCard key={path.slug} path={path} />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="mt-14 rounded-[2rem] border border-white/70 bg-white/70 p-6 shadow-sm ring-1 ring-slate-900/5 backdrop-blur">
         <div className="flex items-end justify-between gap-4">
@@ -147,4 +193,3 @@ export default function Home() {
     </div>
   );
 }
-
