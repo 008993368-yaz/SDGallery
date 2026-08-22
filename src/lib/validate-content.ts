@@ -12,6 +12,8 @@ import {
   type ValidationIssue,
 } from "./content-schema";
 import { extractFirstMermaid } from "./mdx";
+import { pathContentRefExists } from "./paths";
+import type { V2ScopeDocument } from "./types";
 
 const contentRoot = path.join(process.cwd(), "content");
 
@@ -255,6 +257,74 @@ export function validateMdxSource(
   return issues;
 }
 
+export function validateLearningPaths(
+  catalog: ContentCatalog = buildContentCatalog(),
+): ValidationIssue[] {
+  const filePath = path.join(contentRoot, "v2", "scope-and-taxonomy.json");
+  const file = contentFileLabel(filePath);
+  if (!fs.existsSync(filePath)) {
+    return [{ file, path: "taxonomy.learningPaths", message: "Missing V2 scope file" }];
+  }
+
+  let scope: V2ScopeDocument;
+  try {
+    scope = JSON.parse(fs.readFileSync(filePath, "utf8")) as V2ScopeDocument;
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Unable to parse V2 scope JSON";
+    return [{ file, path: "taxonomy.learningPaths", message }];
+  }
+
+  const issues: ValidationIssue[] = [];
+  const pathSlugs = new Set(scope.taxonomy.learningPaths.map((p) => p.slug));
+
+  scope.taxonomy.learningPaths.forEach((learningPath, pathIndex) => {
+    const base = `taxonomy.learningPaths.${pathIndex}`;
+
+    learningPath.prerequisites.forEach((prereqSlug, prereqIndex) => {
+      if (!pathSlugs.has(prereqSlug)) {
+        issues.push({
+          file,
+          path: `${base}.prerequisites.${prereqIndex}`,
+          message: `Learning path prerequisite "${prereqSlug}" does not exist`,
+        });
+      }
+    });
+
+    learningPath.contentRefs.forEach((ref, refIndex) => {
+      const issuePath = `${base}.contentRefs.${refIndex}`;
+      const set =
+        ref.type === "company"
+          ? catalog.companies
+          : ref.type === "pattern"
+            ? catalog.patterns
+            : catalog.caseStudies;
+
+      if (!set.has(ref.slug)) {
+        issues.push({
+          file,
+          path: issuePath,
+          message: `${ref.type} "${ref.slug}" does not exist`,
+        });
+        return;
+      }
+
+      if (!pathContentRefExists(ref)) {
+        issues.push({
+          file,
+          path: issuePath,
+          message:
+            ref.type === "company"
+              ? `company "${ref.slug}" has no primary case study to link`
+              : `${ref.type} "${ref.slug}" does not resolve to a navigable page`,
+        });
+      }
+    });
+  });
+
+  return issues;
+}
+
 export function validateAllContent(): ValidationIssue[] {
   const catalog = buildContentCatalog();
   const issues: ValidationIssue[] = [];
@@ -267,6 +337,8 @@ export function validateAllContent(): ValidationIssue[] {
       );
     }
   });
+
+  issues.push(...validateLearningPaths(catalog));
 
   return issues;
 }

@@ -4,18 +4,11 @@ import {
   getV2ScopeDocument,
   getV2TaxonomyPillars,
 } from "@/lib/content";
+import { resolvePathContentHref } from "@/lib/paths";
+import type { V2ContentReference } from "@/lib/types";
 
-function getContentHref(type: string, slug: string) {
-  switch (type) {
-    case "company":
-      return `/companies/${slug}`;
-    case "pattern":
-      return `/patterns/${slug}`;
-    case "case-study":
-      return `/case-studies/${slug}`;
-    default:
-      return "/";
-  }
+function getContentHref(ref: V2ContentReference) {
+  return resolvePathContentHref(ref) ?? "/paths";
 }
 
 export default function ScopeAndTaxonomyPage() {
@@ -136,10 +129,18 @@ export default function ScopeAndTaxonomyPage() {
                   </span>
                 ))}
               </div>
+              <p className="mt-4">
+                <Link
+                  href={`/paths/${path.slug}`}
+                  className="text-sm font-medium text-teal-800 hover:text-teal-950"
+                >
+                  Open path →
+                </Link>
+              </p>
               <ul className="mt-4 space-y-2 text-sm text-slate-600">
                 {path.contentRefs.map((ref) => (
-                  <li key={`${path.slug}-${ref.slug}`} className="rounded-xl border border-slate-200 px-3 py-2">
-                    <Link href={getContentHref(ref.type, ref.slug)} className="font-medium text-slate-800 hover:text-teal-700">
+                  <li key={`${path.slug}-${ref.type}-${ref.slug}`} className="rounded-xl border border-slate-200 px-3 py-2">
+                    <Link href={getContentHref(ref)} className="font-medium text-slate-800 hover:text-teal-700">
                       {ref.title}
                     </Link>
                   </li>
