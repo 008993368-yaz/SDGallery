@@ -1,15 +1,22 @@
-import type { SearchHit, SearchHitType } from "./types";
+import type { Difficulty, SearchHit, SearchHitType } from "./types";
 
 export function filterSearchIndex(
   index: SearchHit[],
-  opts: { q: string; types?: SearchHitType[]; industry?: string },
+  opts: {
+    q: string;
+    types?: SearchHitType[];
+    industry?: string;
+    difficulty?: Difficulty;
+  },
 ): SearchHit[] {
   const q = opts.q.trim().toLowerCase();
   return index.filter((hit) => {
     if (opts.types?.length && !opts.types.includes(hit.type)) return false;
     if (opts.industry && hit.industry !== opts.industry) return false;
+    if (opts.difficulty && hit.difficulty !== opts.difficulty) return false;
     if (!q) return true;
-    const hay = `${hit.title} ${hit.snippet}`.toLowerCase();
+    const objectives = (hit.learningObjectives ?? []).join(" ");
+    const hay = `${hit.title} ${hit.snippet} ${objectives}`.toLowerCase();
     return hay.includes(q);
   });
 }

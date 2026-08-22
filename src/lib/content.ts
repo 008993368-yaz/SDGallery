@@ -160,6 +160,7 @@ export function getSearchIndex(): SearchHit[] {
       href: `/patterns/${pattern.slug}`,
       difficulty: pattern.difficulty,
       estimatedReadingMinutes: pattern.estimatedReadingMinutes,
+      learningObjectives: pattern.learningObjectives,
     });
   }
 
@@ -173,6 +174,7 @@ export function getSearchIndex(): SearchHit[] {
       href: `/case-studies/${study.slug}`,
       difficulty: study.difficulty,
       estimatedReadingMinutes: study.estimatedReadingMinutes,
+      learningObjectives: study.learningObjectives,
     });
   }
 

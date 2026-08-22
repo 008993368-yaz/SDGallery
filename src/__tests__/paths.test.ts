@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  getLearningPathsForCompany,
   getPathGuidesForContent,
   getPathsContainingContent,
   getPathStepNeighbors,
@@ -84,5 +85,15 @@ describe("learning path helpers", () => {
 
   it("validates published learning path content refs", () => {
     expect(validateLearningPaths()).toEqual([]);
+  });
+
+  it("surfaces pathway context for a compared company", () => {
+    const paths = getLearningPathsForCompany("netflix");
+    expect(paths.map((p) => p.slug)).toEqual(
+      expect.arrayContaining([
+        "beginner-systems-foundations",
+        "video-streaming-journey",
+      ]),
+    );
   });
 });

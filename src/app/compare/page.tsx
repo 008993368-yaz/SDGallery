@@ -11,6 +11,7 @@ import {
 } from "@/lib/content";
 import { SITE_NAME } from "@/lib/constants";
 import { stripMermaidFences } from "@/lib/mdx";
+import { getLearningPathsForCompany } from "@/lib/paths";
 import { extractSections } from "@/lib/sections";
 
 export const metadata: Metadata = {
@@ -30,6 +31,11 @@ function buildSide(slug: string): CompareSide | null {
   const company = getCompany(slug);
   if (!company) return null;
 
+  const learningPaths = getLearningPathsForCompany(slug).map((path) => ({
+    slug: path.slug,
+    title: path.title,
+  }));
+
   const study = getPrimaryCaseStudyForCompany(slug);
   if (!study) {
     return {
@@ -37,6 +43,7 @@ function buildSide(slug: string): CompareSide | null {
       logo: company.logo,
       hasCaseStudy: false,
       sections: {},
+      learningPaths,
     };
   }
 
@@ -56,6 +63,7 @@ function buildSide(slug: string): CompareSide | null {
     logo: company.logo,
     hasCaseStudy: true,
     sections: byTitle,
+    learningPaths,
   };
 }
 
